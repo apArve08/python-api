@@ -1,0 +1,15 @@
+# Secret API Keys
+.env
+
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# Python cache (makes your code run faster locally, but not needed on GitHub)
+__pycache__/
+*.pyc
+
+# OS specific files
+.DS_Store
+Thumbs.db
