@@ -6,19 +6,45 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+<nav class="navbar">
+    <div class="logo">Gemini Hub 🤖</div>
+    <ul class="nav-links">
+        <li><a href="#" onclick="showSection('chat')">Chat</a></li>
+        <li><a href="#" onclick="showSection('quote')">Daily Quote</a></li>
+    </ul>
+</nav>
 
-<div class="chat-container">
-    <h1>Gemini Chat 🤖</h1>
-
+<div class="chat-container" id="chat-section">
+    <h1>Gemini Chat</h1>
     <div id="chat-box"></div>
-
     <div class="input-area">
         <input type="text" id="user-input" placeholder="Type a message..." />
         <button onclick="sendMessage()">Send</button>
     </div>
 </div>
 
+<div class="chat-container" id="quote-section" style="display:none;">
+    <h1>Encouragement 🌟</h1>
+    <div id="quote-display">Click the button for inspiration!</div>
+    <button class="action-btn" onclick="fetchQuote()">Generate Quote</button>
+</div>
+
 <script>
+    // Logic to switch between Chat and Quote
+function showSection(section) {
+    document.getElementById('chat-section').style.display = section === 'chat' ? 'flex' : 'none';
+    document.getElementById('quote-section').style.display = section === 'quote' ? 'flex' : 'none';
+}
+
+// Logic to fetch the Quote
+async function fetchQuote() {
+    const display = document.getElementById("quote-display");
+    display.innerText = "Gemini is thinking...";
+    
+    const response = await fetch("/get_quote", { method: "POST" });
+    const data = await response.json();
+    display.innerText = data.quote;
+}
 async function sendMessage() {
     const input = document.getElementById("user-input");
     const message = input.value.trim();
