@@ -133,6 +133,9 @@
                     <button onclick="showSection('quickactions')" class="nav-btn text-white hover:bg-white/20 px-4 py-2 rounded-lg transition">
                         <i class="fas fa-bolt mr-2"></i>Quick Actions
                     </button>
+                    <button onclick="showSection('devtools')" class="nav-btn text-white hover:bg-white/20 px-4 py-2 rounded-lg transition">
+                        <i class="fas fa-code mr-2"></i>Dev Tools
+                    </button>
                     <button onclick="showSection('quote')" class="nav-btn text-white hover:bg-white/20 px-4 py-2 rounded-lg transition">
                         <i class="fas fa-quote-left mr-2"></i>Quote
                     </button>
@@ -196,9 +199,213 @@
         </div>
     </div>
 
+    
+    <!-- Dev Tools Section -->
+    <div id="devtools-section" class="section-wrapper hidden">
+        <div class="content-section">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
+                <div class="text-center mb-8">
+                    <i class="fas fa-laptop-code text-6xl text-blue-400 mb-4"></i>
+                    <h2 class="text-3xl font-bold">Developer Tools</h2>
+                    <p class="text-secondary mt-2">Professional tools to accelerate your development workflow</p>
+                </div>
+                
+                <!-- Tool Selector Tabs -->
+                <div class="flex gap-4 mb-6 border-b border-custom pb-4">
+                    <button onclick="switchDevTool('readme')" id="readme-tab" class="dev-tool-tab px-6 py-3 rounded-t-lg font-semibold bg-indigo-600 text-white">
+                        <i class="fas fa-book mr-2"></i>README Generator
+                    </button>
+                    <button onclick="switchDevTool('commenter')" id="commenter-tab" class="dev-tool-tab px-6 py-3 rounded-t-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-comment-dots mr-2"></i>Code Commenter
+                    </button>
+                    <button onclick="switchDevTool('designer')" id="designer-tab" class="dev-tool-tab px-6 py-3 rounded-t-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-project-diagram mr-2"></i>System Designer
+                    </button>
+                </div>
+
+                <!-- README Generator Tool -->
+                <div id="readme-tool" class="dev-tool-content">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold mb-4">📚 Generate Professional README</h3>
+                        <p class="text-secondary mb-4">Paste your code and get a comprehensive README.md file</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block mb-2 font-semibold">Project Name (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    id="readme-project-name" 
+                                    placeholder="My Awesome Project"
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 card-bg border-custom"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-semibold">Brief Description (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    id="readme-description" 
+                                    placeholder="A web application for managing tasks..."
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 card-bg border-custom"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-semibold">Your Code</label>
+                                <textarea 
+                                    id="readme-code-input" 
+                                    placeholder="Paste your main code file here (app.py, index.js, etc.)..."
+                                    class="w-full h-64 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm resize-none card-bg border-custom"
+                                ></textarea>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            onclick="generateReadme()" 
+                            class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition font-semibold"
+                        >
+                            <i class="fas fa-magic mr-2"></i>Generate README.md
+                        </button>
+                        
+                        <div id="readme-result" class="mt-6 hidden">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-xl font-semibold">Generated README:</h3>
+                                <button onclick="copyReadme()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    <i class="fas fa-copy mr-2"></i>Copy
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 overflow-auto max-h-96" id="readme-content"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Commenter Tool -->
+                <div id="commenter-tool" class="dev-tool-content hidden">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold mb-4">💬 Add Professional Comments</h3>
+                        <p class="text-secondary mb-4">Automatically add clear, helpful comments to your code</p>
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block mb-2 font-semibold">Programming Language</label>
+                                    <select 
+                                        id="commenter-language" 
+                                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 card-bg border-custom"
+                                    >
+                                        <option value="python">Python</option>
+                                        <option value="javascript">JavaScript</option>
+                                        <option value="java">Java</option>
+                                        <option value="cpp">C++</option>
+                                        <option value="php">PHP</option>
+                                        <option value="ruby">Ruby</option>
+                                        <option value="go">Go</option>
+                                        <option value="rust">Rust</option>
+                                        <option value="typescript">TypeScript</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block mb-2 font-semibold">Comment Level</label>
+                                    <select 
+                                        id="commenter-level" 
+                                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 card-bg border-custom"
+                                    >
+                                        <option value="basic">Basic - Minimal comments</option>
+                                        <option value="medium" selected>Medium - Balanced</option>
+                                        <option value="detailed">Detailed - Comprehensive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-semibold">Your Code</label>
+                                <textarea 
+                                    id="commenter-code-input" 
+                                    placeholder="Paste your code here..."
+                                    class="w-full h-64 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm resize-none card-bg border-custom"
+                                ></textarea>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            onclick="addComments()" 
+                            class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition font-semibold"
+                        >
+                            <i class="fas fa-comment-medical mr-2"></i>Add Comments
+                        </button>
+                        
+                        <div id="commenter-result" class="mt-6 hidden">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-xl font-semibold">Commented Code:</h3>
+                                <button onclick="copyCommentedCode()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    <i class="fas fa-copy mr-2"></i>Copy
+                                </button>
+                            </div>
+                            <pre class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 overflow-auto max-h-96"><code id="commenter-content" class="language-python"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Designer Tool -->
+                <div id="designer-tool" class="dev-tool-content hidden">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold mb-4">🎨 Software Design & Planning</h3>
+                        <p class="text-secondary mb-4">Generate architecture diagrams and comprehensive design documents</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block mb-2 font-semibold">Diagram Type</label>
+                                <select 
+                                    id="designer-type" 
+                                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 card-bg border-custom"
+                                >
+                                    <option value="architecture">System Architecture</option>
+                                    <option value="database">Database Schema (ER Diagram)</option>
+                                    <option value="flowchart">Process Flowchart</option>
+                                    <option value="sequence">Sequence Diagram</option>
+                                    <option value="class">Class Diagram (UML)</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block mb-2 font-semibold">Project Description</label>
+                                <textarea 
+                                    id="designer-description" 
+                                    placeholder="Describe your project, its features, and requirements...
+
+Example: 'An e-commerce web application where users can browse products, add to cart, make payments, and track orders. Admin panel for managing inventory and orders. Need user authentication, payment gateway integration, and real-time notifications.'"
+                                    class="w-full h-48 p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none card-bg border-custom"
+                                ></textarea>
+                            </div>
+                        </div>
+                        
+                        <button 
+                            onclick="designSystem()" 
+                            class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition font-semibold"
+                        >
+                            <i class="fas fa-drafting-compass mr-2"></i>Generate Design Document
+                        </button>
+                        
+                        <div id="designer-result" class="mt-6 hidden">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-xl font-semibold">Design Document:</h3>
+                                <button onclick="copyDesign()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                    <i class="fas fa-copy mr-2"></i>Copy
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 overflow-auto max-h-96" id="designer-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quick Actions Section -->
-    <div id="quickactions-section" class="max-w-6xl mx-auto mt-8 px-4 hidden">
-        <div class="card-bg rounded-2xl shadow-xl p-8">
+    <div id="quickactions-section" class="section-wrapper hidden">
+        <div class="content-section">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
             <div class="text-center mb-8">
                 <i class="fas fa-bolt text-6xl text-yellow-400 mb-4"></i>
                 <h2 class="text-3xl font-bold">Quick Actions</h2>
@@ -258,12 +465,14 @@
             <div id="quick-action-result" class="mt-6 hidden">
                 <div class="card-bg border border-custom rounded-xl p-6" id="quick-action-content"></div>
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Quote Section -->
-    <div id="quote-section" class="max-w-3xl mx-auto mt-8 px-4 hidden">
-        <div class="card-bg rounded-2xl shadow-xl p-8">
+    <div id="quote-section" class="section-wrapper hidden">
+        <div class="content-section" style="max-width: 800px;">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
             <div class="text-center mb-6">
                 <i class="fas fa-quote-left text-6xl text-indigo-400 mb-4"></i>
                 <h2 class="text-3xl font-bold">Daily Inspiration</h2>
@@ -280,12 +489,14 @@
             >
                 <i class="fas fa-magic mr-2"></i>Generate New Quote
             </button>
+            </div>
         </div>
     </div>
 
     <!-- Summarize Section -->
-    <div id="summarize-section" class="max-w-4xl mx-auto mt-8 px-4 hidden">
-        <div class="card-bg rounded-2xl shadow-xl p-8">
+    <div id="summarize-section" class="section-wrapper hidden">
+        <div class="content-section" style="max-width: 900px;">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
             <div class="text-center mb-6">
                 <i class="fas fa-file-alt text-6xl text-indigo-400 mb-4"></i>
                 <h2 class="text-3xl font-bold">Text Summarizer</h2>
@@ -309,12 +520,14 @@
                 <h3 class="text-xl font-semibold mb-3">Summary:</h3>
                 <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-6" id="summary-content"></div>
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Code Explainer Section -->
-    <div id="code-section" class="max-w-4xl mx-auto mt-8 px-4 hidden">
-        <div class="card-bg rounded-2xl shadow-xl p-8">
+    <div id="code-section" class="section-wrapper hidden">
+        <div class="content-section" style="max-width: 900px;">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
             <div class="text-center mb-6">
                 <i class="fas fa-code text-6xl text-indigo-400 mb-4"></i>
                 <h2 class="text-3xl font-bold">Code Explainer</h2>
@@ -351,12 +564,14 @@
                 <h3 class="text-xl font-semibold mb-3">Explanation:</h3>
                 <div class="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-6" id="explanation-content"></div>
             </div>
+            </div>
         </div>
     </div>
 
     <!-- Ideas Generator Section -->
-    <div id="ideas-section" class="max-w-3xl mx-auto mt-8 px-4 hidden">
-        <div class="card-bg rounded-2xl shadow-xl p-8">
+    <div id="ideas-section" class="section-wrapper hidden">
+        <div class="content-section" style="max-width: 800px;">
+            <div class="card-bg rounded-2xl shadow-xl p-8">
             <div class="text-center mb-6">
                 <i class="fas fa-lightbulb text-6xl text-yellow-400 mb-4"></i>
                 <h2 class="text-3xl font-bold">Idea Generator</h2>
@@ -384,6 +599,7 @@
             
             <div id="idea-result" class="mt-6 hidden">
                 <div class="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6" id="idea-content"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -415,10 +631,183 @@
         });
 
         function showSection(section) {
-            ['chat-section', 'quickactions-section', 'quote-section', 'summarize-section', 'code-section', 'ideas-section'].forEach(id => {
+            ['chat-section', 'quickactions-section', 'devtools-section', 'quote-section', 'summarize-section', 'code-section', 'ideas-section'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
             document.getElementById(section + '-section').classList.remove('hidden');
+        }
+
+        // Dev Tools Tab Switching
+        function switchDevTool(tool) {
+            // Hide all tool contents
+            ['readme-tool', 'commenter-tool', 'designer-tool'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            ['readme-tab', 'commenter-tab', 'designer-tab'].forEach(id => {
+                const tab = document.getElementById(id);
+                tab.classList.remove('bg-indigo-600', 'text-white');
+                tab.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+            });
+            
+            // Show selected tool and activate tab
+            document.getElementById(tool + '-tool').classList.remove('hidden');
+            const activeTab = document.getElementById(tool + '-tab');
+            activeTab.classList.add('bg-indigo-600', 'text-white');
+            activeTab.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+        }
+
+        // README Generator
+        async function generateReadme() {
+            const code = document.getElementById("readme-code-input").value.trim();
+            const projectName = document.getElementById("readme-project-name").value.trim();
+            const description = document.getElementById("readme-description").value.trim();
+            
+            if (!code) {
+                alert("Please paste your code!");
+                return;
+            }
+
+            const resultDiv = document.getElementById("readme-result");
+            const contentDiv = document.getElementById("readme-content");
+            
+            resultDiv.classList.remove("hidden");
+            contentDiv.innerHTML = `
+                <div class="flex items-center justify-center py-8">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="ml-4">Generating comprehensive README...</span>
+                </div>
+            `;
+
+            try {
+                const response = await fetch("/generate_readme", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({code, project_name: projectName, description})
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    contentDiv.innerHTML = `<p class="text-red-500">Error: ${data.error}</p>`;
+                } else {
+                    contentDiv.innerHTML = marked.parse(data.readme);
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<p class="text-red-500">Failed to generate README. Please try again.</p>`;
+            }
+        }
+
+        function copyReadme() {
+            const content = document.getElementById("readme-content").innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                alert("README copied to clipboard!");
+            });
+        }
+
+        // Code Commenter
+        async function addComments() {
+            const code = document.getElementById("commenter-code-input").value.trim();
+            const language = document.getElementById("commenter-language").value;
+            const level = document.getElementById("commenter-level").value;
+            
+            if (!code) {
+                alert("Please paste your code!");
+                return;
+            }
+
+            const resultDiv = document.getElementById("commenter-result");
+            const contentDiv = document.getElementById("commenter-content");
+            
+            resultDiv.classList.remove("hidden");
+            contentDiv.textContent = "Analyzing code and adding comments...";
+            contentDiv.className = `language-${language}`;
+
+            try {
+                const response = await fetch("/add_comments", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({code, language, level})
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    contentDiv.textContent = `Error: ${data.error}`;
+                } else {
+                    // Clean the response - remove markdown code fences if present
+                    let cleanCode = data.commented_code;
+                    cleanCode = cleanCode.replace(/```[\w]*\n/g, '').replace(/```$/g, '').trim();
+                    
+                    contentDiv.textContent = cleanCode;
+                    hljs.highlightElement(contentDiv);
+                }
+            } catch (error) {
+                contentDiv.textContent = "Failed to add comments. Please try again.";
+            }
+        }
+
+        function copyCommentedCode() {
+            const content = document.getElementById("commenter-content").textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                alert("Commented code copied to clipboard!");
+            });
+        }
+
+        // System Designer
+        async function designSystem() {
+            const description = document.getElementById("designer-description").value.trim();
+            const type = document.getElementById("designer-type").value;
+            
+            if (!description) {
+                alert("Please describe your project!");
+                return;
+            }
+
+            const resultDiv = document.getElementById("designer-result");
+            const contentDiv = document.getElementById("designer-content");
+            
+            resultDiv.classList.remove("hidden");
+            contentDiv.innerHTML = `
+                <div class="flex items-center justify-center py-8">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span class="ml-4">Creating design document and diagrams...</span>
+                </div>
+            `;
+
+            try {
+                const response = await fetch("/design_system", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({description, type})
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    contentDiv.innerHTML = `<p class="text-red-500">Error: ${data.error}</p>`;
+                } else {
+                    contentDiv.innerHTML = marked.parse(data.design);
+                }
+            } catch (error) {
+                contentDiv.innerHTML = `<p class="text-red-500">Failed to generate design. Please try again.</p>`;
+            }
+        }
+
+        function copyDesign() {
+            const content = document.getElementById("designer-content").innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                alert("Design document copied to clipboard!");
+            });
         }
 
         // Quick Actions Function
@@ -467,14 +856,12 @@
             // Show typing indicator
             const typingDiv = document.createElement('div');
             typingDiv.id = 'typing-indicator';
-            typingDiv.className = 'flex justify-start message-enter';
+            typingDiv.className = 'bot-msg';
             typingDiv.innerHTML = `
-                <div class="bg-gray-200 dark:bg-gray-700 rounded-2xl px-4 py-3 max-w-[70%]">
-                    <div class="typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             `;
             document.getElementById('chat-box').appendChild(typingDiv);
@@ -504,10 +891,8 @@
         function addMessage(sender, text) {
             const chatBox = document.getElementById("chat-box");
             const msg = document.createElement("div");
-            msg.className = `flex ${sender === "user" ? "justify-end" : "justify-start"} message-enter`;
-            
-            const bgColor = sender === "user" ? "bg-indigo-600 text-white" : "card-bg border border-custom";
-            const icon = sender === "user" ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            msg.className = sender === "user" ? "user-msg" : "bot-msg";
+            msg.className += " message-enter";
             
             // Convert markdown to HTML for bot messages
             let formattedText = text;
@@ -515,14 +900,7 @@
                 formattedText = marked.parse(text);
             }
             
-            msg.innerHTML = `
-                <div class="${bgColor} rounded-2xl px-4 py-3 max-w-[70%] shadow-sm">
-                    <div class="flex items-start gap-2">
-                        <div class="mt-1">${icon}</div>
-                        <div class="prose prose-sm max-w-none">${sender === "user" ? text : formattedText}</div>
-                    </div>
-                </div>
-            `;
+            msg.innerHTML = formattedText;
             
             chatBox.appendChild(msg);
             
@@ -543,12 +921,7 @@
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({session_id: sessionId})
                 });
-                document.getElementById("chat-box").innerHTML = `
-                    <div class="text-center py-8" style="color: var(--text-secondary);">
-                        <i class="fas fa-robot text-6xl mb-4 text-indigo-400"></i>
-                        <p class="text-lg">Start a conversation with Gemini AI!</p>
-                    </div>
-                `;
+                document.getElementById("chat-box").innerHTML = "";
             }
         }
 

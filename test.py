@@ -24,3 +24,7 @@ while True:
     response = chat.send_message(user_input)
 
     print("Gemini:", response.text)
+
+
+
+    
